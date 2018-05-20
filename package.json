@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.3.2",
-    "nanode": "^2.3.3"
+    "nanode": "^2.3.3",
+    "request": "^2.86.0"
   }
 }
