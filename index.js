@@ -9,7 +9,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === '!nanoblocks') {
+  if (msg.content === '.blocks') {
     nano.rpc('block_count').then((data) => {
       msg.reply(data.count + ' blocks');
     })
