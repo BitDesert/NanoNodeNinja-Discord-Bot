@@ -28,7 +28,7 @@ client.on('message', msg => {
   if (msg.content === '.blocks') {
     // block count
     nano.rpc('block_count').then((data) => {
-      msg.reply(data.count + ' blocks');
+      msg.reply(data.count.toLocaleString('en-US') + ' blocks');
     });
 
   } else if (msgarray[0] === '.account') {
