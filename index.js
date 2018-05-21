@@ -159,7 +159,9 @@ client.on('message', msg => {
     msg.author.send("**Available commands**\n\n" +
       "`.blocks` - Current block count\n\n" +
       "`.account ADDRESS` - Information about an account\n\n" +
-      "`.invite` - Get the invite link\n\n");
+      "`.rep ADDRESS` - Information about a representative\n\n" +
+      "`.invite` - Get the invite link\n\n" +
+      "`.help` - Shows this text\n\n");
 
   }
 });
