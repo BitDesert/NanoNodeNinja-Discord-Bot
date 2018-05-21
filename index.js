@@ -47,7 +47,7 @@ client.on('message', msg => {
 
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
-      msg.reply('please add the accound address!');
+      msg.reply('please add the account address!');
       return;
     }
 
