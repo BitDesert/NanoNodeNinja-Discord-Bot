@@ -28,7 +28,21 @@ client.on('message', msg => {
   if (msg.content === '.blocks') {
     // block count
     nano.rpc('block_count').then((data) => {
-      msg.reply(data.count.toLocaleString('en-US') + ' blocks');
+      msg.channel.send({
+        embed: {
+          color: 16007990,
+          fields: [{
+              name: "Blocks",
+              value: parseInt(data.count).toLocaleString('en-US'),
+              inline: true
+            }
+          ],
+          footer: {
+            icon_url: client.user.avatarURL,
+            text: 'Nano Node Ninja'
+          }
+        }
+      });
     });
 
   } else if (msgarray[0] === '.account') {
