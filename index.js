@@ -150,6 +150,14 @@ client.on('message', msg => {
 
     });
 
+  } else if (msg.content === '.ledger') {
+    // bot invite
+    msg.reply('https://nanonode.ninja/api/ledger/download');
+
+  } else if (msg.content === '.fastsync') {
+    // bot invite
+    msg.reply('https://nanotools.github.io/easy-nano-node/manual/ubuntu.html#fast-sync');
+
   } else if (msg.content === '.invite') {
     // bot invite
     msg.reply('https://discordapp.com/oauth2/authorize?client_id=' + client.user.id + '&scope=bot&permissions=0')
@@ -160,6 +168,8 @@ client.on('message', msg => {
       "`.blocks` - Current block count\n\n" +
       "`.account ADDRESS` - Information about an account\n\n" +
       "`.rep ADDRESS` - Information about a representative\n\n" +
+      "`.ledger` - Ledger download URL\n\n" +
+      "`.fastsync` - Tutorial on fast sync\n\n" +
       "`.invite` - Get the invite link\n\n" +
       "`.help` - Shows this text\n\n");
 
