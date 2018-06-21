@@ -1,13 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const {
-  Nano
-} = require('nanode')
-const nano = new Nano({
-  url: 'http://[::1]:7076'
-})
-
 var request = require('request');
 const {
   nanoPrettify
@@ -30,22 +23,32 @@ client.on('message', msg => {
   var msgarray = msg.content.split(" ");
 
   if (msg.content === '.blocks') {
-    // block count
-    nano.rpc('block_count').then((data) => {
-      msg.channel.send({
-        embed: {
-          color: 16007990,
-          fields: [{
-            name: "Blocks",
-            value: parseInt(data.count).toLocaleString('en-US'),
-            inline: true
-          }],
-          footer: {
-            icon_url: client.user.avatarURL,
-            text: 'Nano Node Ninja'
+    request({
+      url: 'https://nanonode.ninja/api/blockcount',
+      json: true
+    }, function (error, response, body) {
+      if (error || response.statusCode !== 200) {
+        msg.reply('API error.');
+        return;
+      } else if (response.statusCode == 404) {
+        msg.reply(body.error);
+      } else if (response.statusCode == 200) {
+        // return blockcount
+        msg.channel.send({
+          embed: {
+            color: 16007990,
+            fields: [{
+              name: "Blocks",
+              value: parseInt(body.count).toLocaleString('en-US'),
+              inline: true
+            }],
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: 'Nano Node Ninja'
+            }
           }
-        }
-      });
+        });
+      }
     });
 
   } else if (msgarray[0] === '.account') {
@@ -73,15 +76,15 @@ client.on('message', msg => {
               url: 'https://nano.meltingice.net/explorer/account/' + msgarray[1]
             },
             fields: [{
-                name: "Balance",
-                value: body.account.balance + ' NANO',
-                inline: true
-              },
-              {
-                name: "Pending",
-                value: body.account.pending + ' NANO',
-                inline: true
-              }
+              name: "Balance",
+              value: body.account.balance + ' NANO',
+              inline: true
+            },
+            {
+              name: "Pending",
+              value: body.account.pending + ' NANO',
+              inline: true
+            }
             ],
             footer: {
               icon_url: client.user.avatarURL,
@@ -119,25 +122,25 @@ client.on('message', msg => {
               url: 'https://nanonode.ninja/account/' + body.account
             },
             fields: [{
-                name: "Voting Weight",
-                value: variableRound(rawtoNANO(body.votingweight)) + ' NANO',
-                inline: true
-              },
-              {
-                name: "Delegators",
-                value: body.delegators,
-                inline: true
-              },
-              {
-                name: "Uptime",
-                value: round(body.uptime, 3) + ' %',
-                inline: true
-              },
-              {
-                name: "Last voted",
-                value: moment(body.lastVoted).fromNow(),
-                inline: true
-              }
+              name: "Voting Weight",
+              value: variableRound(rawtoNANO(body.votingweight)) + ' NANO',
+              inline: true
+            },
+            {
+              name: "Delegators",
+              value: body.delegators,
+              inline: true
+            },
+            {
+              name: "Uptime",
+              value: round(body.uptime, 3) + ' %',
+              inline: true
+            },
+            {
+              name: "Last voted",
+              value: moment(body.lastVoted).fromNow(),
+              inline: true
+            }
             ],
             footer: {
               icon_url: client.user.avatarURL,
