@@ -24,7 +24,7 @@ client.on('message', msg => {
 
   if (msg.content === '.blocks') {
     request({
-      url: 'https://nanonode.ninja/api/blockcount',
+      url: 'https://mynano.ninja/api/blockcount',
       json: true
     }, function (error, response, body) {
       if (error || response.statusCode !== 200) {
@@ -44,7 +44,7 @@ client.on('message', msg => {
             }],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'Nano Node Ninja'
+              text: 'My Nano Ninja'
             }
           }
         });
@@ -88,7 +88,7 @@ client.on('message', msg => {
             ],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'Nano Node Ninja'
+              text: 'My Nano Ninja'
             }
           }
         });
@@ -105,7 +105,7 @@ client.on('message', msg => {
 
     // get account
     request({
-      url: 'https://nanonode.ninja/api/accounts/' + msgarray[1],
+      url: 'https://mynano.ninja/api/accounts/' + msgarray[1],
       json: true
     }, function (error, response, body) {
       if (error || response.statusCode !== 200) {
@@ -144,7 +144,7 @@ client.on('message', msg => {
             ],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'Nano Node Ninja'
+              text: 'My Nano Ninja'
             }
           }
         });
@@ -154,11 +154,24 @@ client.on('message', msg => {
     });
 
   } else if (msg.content === '.ledger') {
-    // bot invite
-    msg.reply('https://nanonode.ninja/api/ledger/download');
+    // ledger fastsync download
+    msg.reply('https://mynano.ninja/api/ledger/download');
+
+  } else if (msg.content === '.trade') {
+    // trade talk
+    msg.reply('for trade talk please visit https://discord.gg/HHVaGCk');
+
+  } else if (msg.content === '.wallet' || msg.content === '.wallets') {
+    // trade talk
+    msg.reply(
+      'we recommend you the following wallets:\n' +
+      '**NWC:**\n https://nanowalletcompany.com\n\n' + 
+      '**NanoVault:**\n https://github.com/cronoh/nanovault/releases\n\n' + 
+      '**Canoe:**\n https://getcanoe.io/download/'
+    );
 
   } else if (msg.content === '.fastsync') {
-    // bot invite
+    // fastsync tutorial
     msg.reply('https://nanotools.github.io/easy-nano-node/manual/ubuntu.html#fast-sync');
 
   } else if (msg.content === '.invite') {
