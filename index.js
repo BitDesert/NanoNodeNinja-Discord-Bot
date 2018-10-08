@@ -119,7 +119,7 @@ client.on('message', msg => {
             color: 16007990,
             author: {
               name: body.account,
-              url: 'https://nanonode.ninja/account/' + body.account
+              url: 'https://mynano.ninja/account/' + body.account
             },
             fields: [{
               name: "Voting Weight",
@@ -164,10 +164,16 @@ client.on('message', msg => {
   } else if (msg.content === '.wallet' || msg.content === '.wallets') {
     // trade talk
     msg.reply(
-      'we recommend you the following wallets:\n' +
-      '**NWC:**\n https://nanowalletcompany.com\n\n' + 
-      '**NanoVault:**\n https://github.com/cronoh/nanovault/releases\n\n' + 
-      '**Canoe:**\n https://getcanoe.io/download/'
+      'unofficial wallet list:\n' + 
+      '**NanoVault:**\n' + 
+      '_Web, Windows, OSX, Linux_\n' + 
+      '<https://nanovault.io/> | <https://github.com/cronoh/nanovault/releases>\n\n' + 
+      '**Canoe:**\n' + 
+      '_Windows, OSX, Linux, iOS, Android_\n' + 
+      '<https://getcanoe.io/download/>\n\n' + 
+      '**Nano Wallet Company (NWC)**\n' + 
+      '_Windows, OSX, Linux, iOS, Android_\n' + 
+      '<https://nanowalletcompany.com>'
     );
 
   } else if (msg.content === '.fastsync') {
