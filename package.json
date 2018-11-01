@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "big.js": "^5.2.2",
     "discord.js": "^11.3.2",
     "moment": "^2.22.1",
     "nano-prettify": "^1.0.1",
