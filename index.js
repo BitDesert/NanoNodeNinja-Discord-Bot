@@ -165,9 +165,9 @@ client.on('message', msg => {
     var inputBig = Big(msgarray[1]);
 
     if (typeof msgarray[2] === 'undefined') {
-      var unit = msgarray[2];
-    } else {
       var unit = 'NANO';
+    } else {
+      var unit = msgarray[2];
     }
 
     // define multipliers/dividers. dividers will be implemented as multipliers for precision reasons. 
