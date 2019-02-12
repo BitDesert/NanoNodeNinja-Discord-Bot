@@ -233,7 +233,7 @@ client.on('message', msg => {
     // ledger fastsync download
     msg.reply('https://mynano.ninja/api/ledger/download');
 
-  } else if (msg.content === '.trade') {
+  } else if (msg.content === '.trade' || msg.content === '.trading') {
     // trade talk
     msg.reply('for trade talk please visit https://discord.gg/fUw6fWc');
 
