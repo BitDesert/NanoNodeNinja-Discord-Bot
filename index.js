@@ -12,6 +12,7 @@ const Big = require('big.js');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  updatePresence();
 });
 
 client.on('message', msg => {
@@ -276,6 +277,24 @@ client.on('message', msg => {
 
   }
 });
+
+function updatePresence() {
+  request({
+    url: 'https://mynano.ninja/api/blockcount',
+    json: true
+  }, function (error, response, body) {
+    if (error || response.statusCode !== 200) {
+      return;
+    } else if (response.statusCode == 200) {
+      // Set the client user's presence
+      client.user.setPresence({ game: { name: parseInt(body.count).toLocaleString('en-US') + ' Blocks' }, status: 'idle' })
+        .then(console.log)
+        .catch(console.error);
+    }
+  });
+
+}
+setInterval(updatePresence, 60 * 1000)
 
 function rawtoNANO(raw) {
   return raw / 1000000000000000000000000000000;
