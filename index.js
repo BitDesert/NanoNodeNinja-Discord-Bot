@@ -234,7 +234,11 @@ client.on('message', msg => {
 
   } else if (msg.content === '.trade') {
     // trade talk
-    msg.reply('for trade talk please visit https://discord.gg/HHVaGCk');
+    msg.reply('for trade talk please visit https://discord.gg/fUw6fWc');
+
+  } else if (msg.content === '.tnc') {
+    // trade talk
+    msg.reply('join the TNC Discord server at https://discord.gg/fUw6fWc');
 
   } else if (msg.content === '.wallet' || msg.content === '.wallets') {
     // trade talk
