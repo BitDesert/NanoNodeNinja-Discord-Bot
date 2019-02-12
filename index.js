@@ -1,10 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-var request = require('request');
-const {
-  nanoPrettify
-} = require('nano-prettify')
+const request = require("request-promise");
 var moment = require('moment');
 const Big = require('big.js');
 
@@ -278,20 +275,30 @@ client.on('message', msg => {
   }
 });
 
-function updatePresence() {
-  request({
+async function updatePresence() {
+  var presence = '';
+
+  var result = await request({
     url: 'https://mynano.ninja/api/blockcount',
     json: true
-  }, function (error, response, body) {
-    if (error || response.statusCode !== 200) {
-      return;
-    } else if (response.statusCode == 200) {
-      // Set the client user's presence
-      client.user.setPresence({ game: { name: parseInt(body.count).toLocaleString('en-US') + ' Blocks' }, status: 'idle' })
-        .then(console.log)
-        .catch(console.error);
-    }
   });
+
+  if(result){
+    presence = presence + parseInt(result.count).toLocaleString('en-US') + ' Blocks'
+  }
+
+  var result = await request({
+    url: 'https://api.nanocrawler.cc/tps/1m',
+    json: true
+  });
+
+  if(result){
+    presence = presence + ' | ' + parseFloat(result.tps).toFixed(2).toLocaleString('en-US') + ' TPS'
+  }
+  
+  // Set the client user's presence
+  client.user.setPresence({ game: { name: presence }, status: 'idle' })
+    .catch(console.error);
 
 }
 setInterval(updatePresence, 60 * 1000)
