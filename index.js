@@ -1,5 +1,8 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+// Extract the required classes from the discord.js module
+const { Client, RichEmbed } = require('discord.js');
+
+// Create an instance of a Discord client
+const client = new Client();
 
 const request = require("request-promise");
 var moment = require('moment');
@@ -49,6 +52,10 @@ client.on('message', msg => {
         });
       }
     });
+
+  } else if (msgarray[0] === '.tps') {
+
+    sendTPS(msg);
 
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
@@ -275,6 +282,52 @@ client.on('message', msg => {
   }
 });
 
+async function sendTPS(msg) {
+  var result_1m = await request({
+    url: 'https://api.nanocrawler.cc/tps/1m',
+    json: true
+  });
+
+  var result_5m = await request({
+    url: 'https://api.nanocrawler.cc/tps/5m',
+    json: true
+  });
+  
+  var result_15m = await request({
+    url: 'https://api.nanocrawler.cc/tps/15m',
+    json: true
+  });
+  
+  var result_30m = await request({
+    url: 'https://api.nanocrawler.cc/tps/30m',
+    json: true
+  });
+  
+  var result_1hr = await request({
+    url: 'https://api.nanocrawler.cc/tps/1hr',
+    json: true
+  });
+  
+  var result_24hr = await request({
+    url: 'https://api.nanocrawler.cc/tps/24hr',
+    json: true
+  });
+
+  const embed = new RichEmbed()
+    .setTitle('TPS')
+    .setColor(0xFF0000)
+    .addField('1m', formatTPS(result_1m.tps), true)
+    .addField('5m', formatTPS(result_5m.tps), true)
+    .addField('15m', formatTPS(result_15m.tps), true)
+    .addField('30m', formatTPS(result_30m.tps), true)
+    .addField('1hr', formatTPS(result_1hr.tps), true)
+    .addField('24hr', formatTPS(result_24hr.tps), true);
+
+  // Send the embed to the same channel as the message
+  msg.channel.send(embed);
+
+}
+
 async function updatePresence() {
   var presence = '';
 
@@ -283,7 +336,7 @@ async function updatePresence() {
     json: true
   });
 
-  if(result){
+  if (result) {
     presence = presence + parseInt(result.count).toLocaleString('en-US') + ' Blocks'
   }
 
@@ -292,16 +345,20 @@ async function updatePresence() {
     json: true
   });
 
-  if(result){
-    presence = presence + ' | ' + parseFloat(result.tps).toFixed(2).toLocaleString('en-US') + ' TPS'
+  if (result) {
+    presence = presence + ' | ' + formatTPS(result.tps) + ' TPS'
   }
-  
+
   // Set the client user's presence
   client.user.setPresence({ game: { name: presence }, status: 'idle' })
     .catch(console.error);
 
 }
 setInterval(updatePresence, 60 * 1000)
+
+function formatTPS(tps){
+  return parseFloat(tps).toFixed(2).toLocaleString('en-US');
+}
 
 function rawtoNANO(raw) {
   return raw / 1000000000000000000000000000000;
