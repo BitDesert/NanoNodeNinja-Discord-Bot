@@ -292,22 +292,22 @@ async function sendTPS(msg) {
     url: 'https://api.nanocrawler.cc/tps/5m',
     json: true
   });
-  
+
   var result_15m = await request({
     url: 'https://api.nanocrawler.cc/tps/15m',
     json: true
   });
-  
+
   var result_30m = await request({
     url: 'https://api.nanocrawler.cc/tps/30m',
     json: true
   });
-  
+
   var result_1hr = await request({
     url: 'https://api.nanocrawler.cc/tps/1hr',
     json: true
   });
-  
+
   var result_24hr = await request({
     url: 'https://api.nanocrawler.cc/tps/24hr',
     json: true
@@ -316,12 +316,15 @@ async function sendTPS(msg) {
   const embed = new RichEmbed()
     .setTitle('TPS')
     .setColor(0xFF0000)
-    .addField('1m', formatTPS(result_1m.tps), true)
-    .addField('5m', formatTPS(result_5m.tps), true)
-    .addField('15m', formatTPS(result_15m.tps), true)
-    .addField('30m', formatTPS(result_30m.tps), true)
-    .addField('1hr', formatTPS(result_1hr.tps), true)
-    .addField('24hr', formatTPS(result_24hr.tps), true);
+    .setFooter('My Nano Ninja', client.user.avatarURL)
+    .setDescription(
+      '**1m:** ' + formatTPS(result_1m.tps) + ' / ' +
+      '**5m:** ' + formatTPS(result_5m.tps) + ' / ' +
+      '**15m:** ' + formatTPS(result_15m.tps) + ' / ' +
+      '**30m:** ' + formatTPS(result_30m.tps) + ' / ' +
+      '**1hr** ' + formatTPS(result_1hr.tps) + ' / ' +
+      '**24hr:** ' + formatTPS(result_24hr.tps)
+    )
 
   // Send the embed to the same channel as the message
   msg.channel.send(embed);
@@ -356,7 +359,7 @@ async function updatePresence() {
 }
 setInterval(updatePresence, 60 * 1000)
 
-function formatTPS(tps){
+function formatTPS(tps) {
   return parseFloat(tps).toFixed(2).toLocaleString('en-US');
 }
 
