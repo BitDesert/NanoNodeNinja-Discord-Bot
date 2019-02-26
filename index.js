@@ -255,6 +255,7 @@ client.on('message', msg => {
       .addField('Canoe', '_Windows, OSX, Linux, iOS, Android_\n<https://getcanoe.io/download/>', true)
       .addField('Natrium', '_Android_\n<https://natrium.io/>', true)
       .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
+      .addField('Nanollet', '_Windows, Linux_\n<https://nanollet.org/>', true)
 
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
