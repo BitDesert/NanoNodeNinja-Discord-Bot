@@ -246,19 +246,18 @@ client.on('message', msg => {
     msg.reply('join the TNC Discord server at https://discord.gg/fUw6fWc');
 
   } else if (msg.content === '.wallet' || msg.content === '.wallets') {
-    // trade talk
-    msg.reply(
-      'unofficial wallet list:\n' +
-      '**NanoVault:**\n' +
-      '_Web, Windows, OSX, Linux_\n' +
-      '<https://nanovault.io/> | <https://github.com/cronoh/nanovault/releases>\n\n' +
-      '**Canoe:**\n' +
-      '_Windows, OSX, Linux, iOS, Android_\n' +
-      '<https://getcanoe.io/download/>\n\n' +
-      '**Nano Wallet Company (NWC)**\n' +
-      '_Windows, OSX, Linux, iOS, Android_\n' +
-      '<https://nanowalletcompany.com>'
-    );
+
+    const embed = new RichEmbed()
+      .setTitle('Unofficial Wallet List')
+      .setColor(0xFF0000)
+      .setFooter('My Nano Ninja', client.user.avatarURL)
+      .addField('NanoVault', '_Web, Windows, OSX, Linux_\n<https://nanovault.io>\n<https://vault.mynano.ninja>', true)
+      .addField('Canoe', '_Windows, OSX, Linux, iOS, Android_\n<https://getcanoe.io/download/>', true)
+      .addField('Natrium', '_Android_\n<https://natrium.io/>', true)
+      .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
+
+    // Send the embed to the same channel as the message
+    msg.channel.send(embed);
 
   } else if (msg.content === '.fastsync') {
     // fastsync tutorial
@@ -272,6 +271,7 @@ client.on('message', msg => {
     // help text
     msg.author.send("**Available commands**\n\n" +
       "`.blocks` - Current block count\n\n" +
+      "`.tps` - Current transactions per second\n\n" +
       "`.account ADDRESS` - Information about an account\n\n" +
       "`.rep ADDRESS` - Information about a representative\n\n" +
       "`.ledger` - Ledger download URL\n\n" +
