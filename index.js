@@ -252,8 +252,8 @@ client.on('message', msg => {
       .setColor(0xFF0000)
       .setFooter('My Nano Ninja', client.user.avatarURL)
       .addField('NanoVault', '_Web, Windows, OSX, Linux_\n<https://nanovault.io>\n<https://vault.mynano.ninja>', true)
-      .addField('Canoe', '_Windows, OSX, Linux, iOS, Android_\n<https://getcanoe.io/download/>', true)
-      .addField('Natrium', '_Android_\n<https://natrium.io/>', true)
+      .addField('Canoe', '_Windows, OSX, Linux, Android, iOS_\n<https://getcanoe.io/download/>', true)
+      .addField('Natrium', '_Android, iOS_\n<https://natrium.io/>', true)
       .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
       .addField('Nanollet', '_Windows, Linux_\n<https://nanollet.org/>', true)
 
@@ -277,6 +277,8 @@ client.on('message', msg => {
       "`.rep ADDRESS` - Information about a representative\n\n" +
       "`.ledger` - Ledger download URL\n\n" +
       "`.fastsync` - Tutorial on fast sync\n\n" +
+      "`.trade` - Invite to the trade channel\n\n" +
+      "`.wallets` - Shows the unofficial wallet list\n\n" +
       "`.invite` - Get the invite link\n\n" +
       "`.help` - Shows this text\n\n");
 
