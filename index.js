@@ -65,7 +65,7 @@ client.on('message', msg => {
 
     // get account
     request({
-      url: 'https://nano-api.meltingice.net/account/' + msgarray[1],
+      url: 'https://api.nanocrawler.cc/account/' + msgarray[1],
       json: true
     }, function (error, response, body) {
       if (error || response.statusCode !== 200) {
@@ -79,7 +79,7 @@ client.on('message', msg => {
             color: 16007990,
             author: {
               name: msgarray[1],
-              url: 'https://nano.meltingice.net/explorer/account/' + msgarray[1]
+              url: 'https://nanocrawler.cc/explorer/account/' + msgarray[1]
             },
             fields: [{
               name: "Balance",
@@ -252,10 +252,11 @@ client.on('message', msg => {
       .setColor(0xFF0000)
       .setFooter('My Nano Ninja', client.user.avatarURL)
       .addField('NanoVault', '_Web, Windows, OSX, Linux_\n<https://nanovault.io>\n<https://vault.mynano.ninja>', true)
-      .addField('Canoe', '_Windows, OSX, Linux, Android, iOS_\n<https://getcanoe.io/download/>', true)
-      .addField('Natrium', '_Android, iOS_\n<https://natrium.io/>', true)
+      .addField('Canoe', '_Windows, OSX, Linux, \nAndroid, iOS_\n<https://getcanoe.io>', true)
+      .addField('NanoWallet.io', '_Web_\n<https://nanowallet.io>', true)
+      .addField('Natrium', '_Android, iOS_\n<https://natrium.io>', true)
       .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
-      .addField('Nanollet', '_Windows, Linux_\n<https://nanollet.org/>', true)
+      .addField('Nanollet', '_Windows, Linux_\n<https://nanollet.org>', true)
 
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
