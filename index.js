@@ -235,11 +235,11 @@ client.on('message', msg => {
 
   } else if (msg.content === '.ledger') {
     // ledger fastsync download
-    msg.reply('https://mynano.ninja/api/ledger/download');
+    msg.reply('use this link to download the official ledger from Yandex Disk: https://mynano.ninja/api/ledger/download');
 
   } else if (msg.content === '.trade' || msg.content === '.trading') {
     // trade talk
-    msg.reply('for trade talk please visit https://discord.gg/fUw6fWc');
+    msg.reply('for trade talk please visit https://discord.gg/fUw6fWc (The Nano Center) or https://discord.gg/vnG5Wqr (NanoTrade)');
 
   } else if (msg.content === '.tnc') {
     // trade talk
