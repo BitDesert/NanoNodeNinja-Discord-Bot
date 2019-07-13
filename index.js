@@ -253,7 +253,7 @@ client.on('message', msg => {
       .setFooter('My Nano Ninja', client.user.avatarURL)
       .addField('NanoVault', '_Web, Windows, OSX, Linux_\n<https://nanovault.io>\n<https://vault.mynano.ninja>', true)
       .addField('Canoe', '_Windows, OSX, Linux, \nAndroid, iOS_\n<https://getcanoe.io>', true)
-      .addField('NanoWallet.io', '_Web_\n<https://nanowallet.io>', true)
+      .addField('BrainBlocks', '_Web_\n<https://app.brainblocks.io>', true)
       .addField('Natrium', '_Android, iOS_\n<https://natrium.io>', true)
       .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
       .addField('Nanollet', '_Windows, OS X Darwin, Linux_\n<https://nanollet.org>', true)
