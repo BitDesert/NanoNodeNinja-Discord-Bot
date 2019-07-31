@@ -129,7 +129,7 @@ client.on('message', msg => {
             },
             fields: [{
               name: "Voting Weight",
-              value: variableRound(rawtoNANO(body.votingweight)) + ' NANO',
+              value: toLocaleString(variableRound(rawtoNANO(body.votingweight))) + ' NANO',
               inline: true
             },
             {
@@ -371,6 +371,10 @@ function rawtoNANO(raw) {
   return raw / 1000000000000000000000000000000;
 }
 
+function toLocaleString(value) {
+  if(isNaN(value)) return '0';
+  return Number.parseFloat(value).toLocaleString('en-US')
+}
 
 function variableRound(value) {
   if (value > 1) {
