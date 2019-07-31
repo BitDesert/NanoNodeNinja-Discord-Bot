@@ -114,11 +114,14 @@ client.on('message', msg => {
       url: 'https://mynano.ninja/api/accounts/' + msgarray[1],
       json: true
     }, function (error, response, body) {
-      if (error || response.statusCode !== 200) {
-        msg.reply('API error.');
-        return;
-      } else if (response.statusCode == 404) {
+      if (error) {
+        return msg.reply('API error.');
+      }
+
+      if (response.statusCode == 404) {
         msg.reply(body.error);
+      } else if (response.statusCode !== 200) {
+        msg.reply('API error.');
       } else if (response.statusCode == 200) {
         msg.channel.send({
           embed: {
