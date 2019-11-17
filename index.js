@@ -46,7 +46,7 @@ client.on('message', msg => {
             }],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja'
+              text: 'My Nano Ninja | mynano.ninja'
             }
           }
         });
@@ -94,7 +94,7 @@ client.on('message', msg => {
             ],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja'
+              text: 'My Nano Ninja | mynano.ninja'
             }
           }
         });
@@ -153,7 +153,7 @@ client.on('message', msg => {
             ],
             footer: {
               icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja'
+              text: 'My Nano Ninja | mynano.ninja'
             }
           }
         });
@@ -231,7 +231,7 @@ client.on('message', msg => {
         ],
         footer: {
           icon_url: client.user.avatarURL,
-          text: 'My Nano Ninja'
+          text: 'My Nano Ninja | mynano.ninja'
         }
       }
     });
@@ -257,13 +257,14 @@ client.on('message', msg => {
     const embed = new RichEmbed()
       .setTitle('Unofficial Wallet List')
       .setColor(0xFF0000)
-      .setFooter('My Nano Ninja', client.user.avatarURL)
-      .addField('NanoVault', '_Web, Windows, OSX, Linux_\n<https://nanovault.io>\n<https://vault.mynano.ninja>', true)
-      .addField('Canoe', '_Windows, OSX, Linux, \nAndroid, iOS_\n<https://getcanoe.io>', true)
-      .addField('BrainBlocks', '_Web_\n<https://app.brainblocks.io>', true)
-      .addField('Natrium', '_Android, iOS_\n<https://natrium.io>', true)
-      .addField('Nano Blocks', '_iOS_\n<https://apple.co/2GKte3L>', true)
-      .addField('Nanollet', '_Windows, OS X Darwin, Linux_\n<https://nanollet.org>', true)
+      .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
+      .addField('NanoVault', '_Web, Windows, Mac, Linux_\n[NanoVault.io](https://nanovault.io)\n[NinjaVault](https://vault.mynano.ninja)', true)
+      .addField('Natrium', '_Android, iOS_\n[Visit website](https://natrium.io)', true)
+      .addField('Trust Wallet', '_Android, iOS_\n[Visit website](https://trustwallet.com/de/nano-wallet/)', true)
+      .addField('Exodus', '_Windows, Mac, Linux, \nAndroid, iOS_\n[Visit website](https://www.exodus.io/)', true)
+      .addField('BrainBlocks', '_Web_\n[Visit website](https://app.brainblocks.io)', true)
+      .addField('Nano Blocks', '_iOS_\n[Visit website](https://apple.co/2GKte3L)', true)
+      .addField('Nanollet', '_Windows, Mac, Linux_\n[Visit website](https://nanollet.org)', true)
 
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
@@ -327,7 +328,7 @@ async function sendTPS(msg) {
   const embed = new RichEmbed()
     .setTitle('TPS')
     .setColor(0xFF0000)
-    .setFooter('My Nano Ninja', client.user.avatarURL)
+    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
     .setDescription(
       '**1m:** ' + formatTPS(result_1m.tps) + ' / ' +
       '**5m:** ' + formatTPS(result_5m.tps) + ' / ' +
