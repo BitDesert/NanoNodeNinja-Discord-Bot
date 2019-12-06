@@ -242,7 +242,7 @@ client.on('message', msg => {
 
   } else if (msg.content === '.trade' || msg.content === '.trading') {
     // trade talk
-    msg.reply('for trade talk please visit https://discord.gg/fUw6fWc at #trade');
+    msg.reply('for trade talk please visit https://discord.gg/vnG5Wqr (NanoTrade) or https://discord.gg/fUw6fWc at #trade (The Nano Center)');
 
   } else if (msg.content === '.nanotrade') {
     // trade talk
