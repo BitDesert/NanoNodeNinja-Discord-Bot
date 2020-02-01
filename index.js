@@ -242,15 +242,15 @@ client.on('message', msg => {
 
   } else if (msg.content === '.trade' || msg.content === '.trading') {
     // trade talk
-    msg.reply('for trade talk please visit https://discord.gg/vnG5Wqr (NanoTrade) or https://discord.gg/fUw6fWc at #trade (The Nano Center)');
+    msg.reply('for trade talk please visit https://bit.ly/nanotrade-discord (NanoTrade) or https://bit.ly/nanocenter-discord at #trade (The Nano Center)');
 
   } else if (msg.content === '.nanotrade') {
     // trade talk
-    msg.reply('https://discord.gg/vnG5Wqr **UNOFFICIAL NANO TRADE DISCORD**');
+    msg.reply('https://bit.ly/nanotrade-discord **UNOFFICIAL NANO TRADE DISCORD**');
 
   } else if (msg.content === '.tnc') {
     // trade talk
-    msg.reply('join the TNC Discord server at https://discord.gg/fUw6fWc');
+    msg.reply('join the TNC Discord server at https://bit.ly/nanocenter-discord');
 
   } else if (msg.content === '.wallet' || msg.content === '.wallets') {
 
