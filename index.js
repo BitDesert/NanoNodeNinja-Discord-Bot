@@ -238,7 +238,10 @@ client.on('message', msg => {
 
   } else if (msg.content === '.ledger') {
     // ledger fastsync download
-    msg.reply('use this link to download the official ledger from Yandex Disk: https://mynano.ninja/api/ledger/download');
+    msg.reply('use this link to download the official ledger from Yandex Disk: https://mynano.ninja/api/ledger/download\n' +
+    '```bash\n' +
+    'wget "https://mynano.ninja/api/ledger/download" -O ledger.7z' +
+    '```');
 
   } else if (msg.content === '.trade' || msg.content === '.trading') {
     // trade talk
