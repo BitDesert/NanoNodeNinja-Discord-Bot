@@ -63,9 +63,11 @@ client.on('message', msg => {
       return;
     }
 
+    var account = msgarray[1]
+
     // get account
     request({
-      url: 'https://api.nanocrawler.cc/account/' + msgarray[1],
+      url: 'https://api.nanocrawler.cc/account/' + account,
       json: true
     }, function (error, response, body) {
       if (error || response.statusCode !== 200) {
@@ -78,8 +80,11 @@ client.on('message', msg => {
           embed: {
             color: 16007990,
             author: {
-              name: msgarray[1],
-              url: 'https://nanocrawler.cc/explorer/account/' + msgarray[1]
+              name: account,
+              url: 'https://nanocrawler.cc/explorer/account/' + account
+            },
+            thumbnail: {
+              url: "https://natricon.com/api/v1/nano?address=" + account + "&format=png"
             },
             fields: [{
               name: "Balance",
@@ -151,6 +156,9 @@ client.on('message', msg => {
               inline: true
             }
             ],
+            thumbnail: {
+              url: "https://natricon.com/api/v1/nano?address=" + body.account + "&format=png"
+            },
             footer: {
               icon_url: client.user.avatarURL,
               text: 'My Nano Ninja | mynano.ninja'
