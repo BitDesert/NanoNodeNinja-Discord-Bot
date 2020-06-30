@@ -267,7 +267,7 @@ client.on('message', msg => {
     const embed = new RichEmbed()
       .setTitle('Unofficial Wallet List')
       .setColor(0xFF0000)
-      .setDescription('[Complete List](https://nanowallets.guide)')
+      .setDescription('[Open Complete List](https://nanowallets.guide)')
       .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
       .addField('Nault', '_Web, Windows, Mac, Linux_\n[Visit website](https://nault.cc)', true)
       .addField('Natrium', '_Android, iOS_\n[Visit website](https://natrium.io)', true)
