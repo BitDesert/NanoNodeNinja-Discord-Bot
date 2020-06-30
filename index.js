@@ -267,13 +267,15 @@ client.on('message', msg => {
     const embed = new RichEmbed()
       .setTitle('Unofficial Wallet List')
       .setColor(0xFF0000)
+      .setDescription('[Complete List](https://nanowallets.guide)')
       .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-      .addField('NanoVault', '_Web, Windows, Mac, Linux_\n[NanoVault.io](https://nanovault.io)\n[NinjaVault](https://vault.mynano.ninja)', true)
+      .addField('Nault', '_Web, Windows, Mac, Linux_\n[Visit website](https://nault.cc)', true)
       .addField('Natrium', '_Android, iOS_\n[Visit website](https://natrium.io)', true)
       .addField('Trust Wallet', '_Android, iOS_\n[Visit website](https://trustwallet.com/de/nano-wallet/)', true)
       .addField('Exodus', '_Windows, Mac, Linux, \nAndroid, iOS_\n[Visit website](https://www.exodus.io/)', true)
       .addField('BrainBlocks', '_Web_\n[Visit website](https://app.brainblocks.io)', true)
-      .addField('Nano Blocks', '_iOS_\n[Visit website](https://apple.co/2GKte3L)', true)
+      .addField('Magnum', '_Web, Android_\n[Visit website](https://app.magnumwallet.co)', true)
+      .addField('Guarda', '_Web, Android, iOS, Desktop_\n[Visit website](https://guarda.com)', true)
       .addField('Nanollet', '_Windows, Mac, Linux_\n[Visit website](https://nanollet.org)', true)
 
     // Send the embed to the same channel as the message
