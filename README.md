@@ -1,1 +1,1 @@
-# NanoNodeNinja-Discord-Bot
+# My Nano Ninja Discord Bot

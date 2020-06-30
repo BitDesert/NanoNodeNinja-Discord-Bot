@@ -1,7 +1,12 @@
 {
-  "name": "nanonodeninja-discord",
+  "name": "mynanoninja-discord",
   "version": "1.0.0",
-  "description": "",
+  "description": "The Discord Bot of My Nano Ninja",
+  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BitDesert/MyNanoNinja-Discord-Bot"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

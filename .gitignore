@@ -62,3 +62,4 @@ typings/
 
 # no pm2 config file
 ecosystem.config.js
+docker-compose.yml
