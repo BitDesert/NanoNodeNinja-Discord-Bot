@@ -39,11 +39,13 @@ client.on('message', msg => {
         msg.channel.send({
           embed: {
             color: 16007990,
-            fields: [{
-              name: "Blocks",
-              value: parseInt(body.count).toLocaleString('en-US'),
-              inline: true
-            }],
+            fields: [
+              {
+                name: "Blocks",
+                value: parseInt(body.count).toLocaleString('en-US'),
+                inline: true
+              }
+            ],
             footer: {
               icon_url: client.user.avatarURL,
               text: 'My Nano Ninja | mynano.ninja'
@@ -83,19 +85,17 @@ client.on('message', msg => {
               name: account,
               url: 'https://nanocrawler.cc/explorer/account/' + account
             },
-            thumbnail: {
-              url: "https://natricon.com/api/v1/nano?address=" + account + "&format=png"
-            },
-            fields: [{
-              name: "Balance",
-              value: body.account.balance + ' NANO',
-              inline: true
-            },
-            {
-              name: "Pending",
-              value: body.account.pending + ' NANO',
-              inline: true
-            }
+            fields: [
+              {
+                name: "Balance",
+                value: body.account.balance + ' NANO',
+                inline: true
+              },
+              {
+                name: "Pending",
+                value: body.account.pending + ' NANO',
+                inline: true
+              }
             ],
             footer: {
               icon_url: client.user.avatarURL,
@@ -135,30 +135,28 @@ client.on('message', msg => {
               name: body.account,
               url: 'https://mynano.ninja/account/' + body.account
             },
-            fields: [{
-              name: "Voting Weight",
-              value: toLocaleString(variableRound(rawtoNANO(body.votingweight))) + ' NANO',
-              inline: true
-            },
-            {
-              name: "Delegators",
-              value: body.delegators,
-              inline: true
-            },
-            {
-              name: "Uptime",
-              value: round(body.uptime, 3) + ' %',
-              inline: true
-            },
-            {
-              name: "Last voted",
-              value: moment(body.lastVoted).fromNow(),
-              inline: true
-            }
+            fields: [
+              {
+                name: "Voting Weight",
+                value: toLocaleString(variableRound(rawtoNANO(body.votingweight))) + ' NANO',
+                inline: true
+              },
+              {
+                name: "Delegators",
+                value: body.delegators,
+                inline: true
+              },
+              {
+                name: "Uptime",
+                value: round(body.uptime, 3) + ' %',
+                inline: true
+              },
+              {
+                name: "Last voted",
+                value: moment(body.lastVoted).fromNow(),
+                inline: true
+              }
             ],
-            thumbnail: {
-              url: "https://natricon.com/api/v1/nano?address=" + body.account + "&format=png"
-            },
             footer: {
               icon_url: client.user.avatarURL,
               text: 'My Nano Ninja | mynano.ninja'
@@ -211,31 +209,32 @@ client.on('message', msg => {
     msg.channel.send({
       embed: {
         color: 16007990,
-        fields: [{
-          name: "NANO",
-          value: Big(raw.times(divMnano)).toFixed().toString(),
-          inline: true
-        },
-        {
-          name: "knano",
-          value: Big(raw.times(divknano)).toFixed().toString(),
-          inline: true
-        },
-        {
-          name: "nano",
-          value: Big(raw.times(divnano)).toFixed().toString(),
-          inline: true
-        },
-        {
-          name: "raw",
-          value: raw.toFixed().toString(),
-          inline: true
-        },
-        {
-          name: "raw Hex",
-          value: pad16bytehex(dec2hex(raw.toFixed().toString())).toUpperCase(),
-          inline: true
-        }
+        fields: [
+          {
+            name: "NANO",
+            value: Big(raw.times(divMnano)).toFixed().toString(),
+            inline: true
+          },
+          {
+            name: "knano",
+            value: Big(raw.times(divknano)).toFixed().toString(),
+            inline: true
+          },
+          {
+            name: "nano",
+            value: Big(raw.times(divnano)).toFixed().toString(),
+            inline: true
+          },
+          {
+            name: "raw",
+            value: raw.toFixed().toString(),
+            inline: true
+          },
+          {
+            name: "raw Hex",
+            value: pad16bytehex(dec2hex(raw.toFixed().toString())).toUpperCase(),
+            inline: true
+          }
         ],
         footer: {
           icon_url: client.user.avatarURL,
