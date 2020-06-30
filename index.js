@@ -277,6 +277,7 @@ client.on('message', msg => {
       .addField('BrainBlocks', '_Web_\n[Visit website](https://app.brainblocks.io)', true)
       .addField('Magnum', '_Web, Android_\n[Visit website](https://app.magnumwallet.co)', true)
       .addField('Nanollet', '_Windows, Mac, Linux_\n[Visit website](https://nanollet.org)', true)
+      .addField('WeNano', '_iOS_\n[Visit website](https://wenano.net)', true)
 
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
