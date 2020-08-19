@@ -1,5 +1,5 @@
 // Extract the required classes from the discord.js module
-const { Client, RichEmbed } = require('discord.js');
+const { Client, MessageEmbed } = require('discord.js');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -264,7 +264,7 @@ client.on('message', msg => {
 
   } else if (msg.content === '.wallet' || msg.content === '.wallets') {
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setTitle('Unofficial Wallet List')
       .setColor(0xFF0000)
       .setDescription('[Open Complete List](https://nanowallets.guide)')
@@ -338,7 +338,7 @@ async function sendTPS(msg) {
     json: true
   });
 
-  const embed = new RichEmbed()
+  const embed = new MessageEmbed()
     .setTitle('TPS')
     .setColor(0xFF0000)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
