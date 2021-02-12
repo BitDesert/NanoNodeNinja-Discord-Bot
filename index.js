@@ -251,8 +251,15 @@ client.on('message', msg => {
     '```');
 
   } else if (msg.content === '.trade' || msg.content === '.trading') {
-    // trade talk
-    msg.reply('for trade talk please visit https://bit.ly/nanotrade-discord (NanoTrade) or https://bit.ly/nanocenter-discord at #trade (The Nano Center)');
+    const embed = new MessageEmbed()
+      .setColor(0xFF0000)
+      .setDescription('For trade talk please visit one of the servers below:')
+      .addField('NanoTrade', '[Join server](https://bit.ly/nanotrade-discord)', true)
+      .addField('The Nano Center', '[Join server](https://bit.ly/nanocenter-discord)', true)
+      .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
+
+    // Send the embed to the same channel as the message
+    msg.channel.send(embed);
 
   } else if (msg.content === '.nanotrade') {
     // trade talk
@@ -281,10 +288,6 @@ client.on('message', msg => {
 
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
-
-  } else if (msg.content === '.fastsync') {
-    // fastsync tutorial
-    msg.reply('https://nanotools.github.io/easy-nano-node/manual/ubuntu.html#fast-sync');
 
   } else if (msg.content === '.invite') {
     // bot invite
