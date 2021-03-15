@@ -142,11 +142,6 @@ client.on('message', msg => {
                 inline: true
               },
               {
-                name: "Delegators",
-                value: body.delegators,
-                inline: true
-              },
-              {
                 name: "Uptime",
                 value: round(body.uptime, 3) + ' %',
                 inline: true
