@@ -16,6 +16,7 @@
   "dependencies": {
     "big.js": "^6.0.3",
     "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "moment": "^2.29.1",
     "nano-prettify": "^1.0.2",
     "request": "^2.88.2",

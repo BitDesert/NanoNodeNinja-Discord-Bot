@@ -1,5 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, MessageEmbed } = require('discord.js');
+require("./ExtendedMessage");
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -7,6 +8,7 @@ const client = new Client();
 const request = require("request-promise");
 var moment = require('moment');
 const Big = require('big.js');
+require('dotenv').config()
 
 // client init
 
@@ -67,46 +69,12 @@ client.on('message', msg => {
 
     var account = msgarray[1]
 
-    // get account
-    request({
-      url: 'https://api.nanocrawler.cc/account/' + account,
-      json: true
-    }, function (error, response, body) {
-      if (error || response.statusCode !== 200) {
-        msg.reply('API error.');
-        return;
-      } else if (response.statusCode == 400) {
-        msg.reply(body.error);
-      } else if (response.statusCode == 200) {
-        msg.channel.send({
-          embed: {
-            color: 16007990,
-            author: {
-              name: account,
-              url: 'https://nanocrawler.cc/explorer/account/' + account
-            },
-            fields: [
-              {
-                name: "Balance",
-                value: body.account.balance + ' NANO',
-                inline: true
-              },
-              {
-                name: "Pending",
-                value: body.account.pending + ' NANO',
-                inline: true
-              }
-            ],
-            footer: {
-              icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja | mynano.ninja'
-            }
-          }
-        });
+    replyAddress(msg, account)
 
-      }
+  } else if (hasAddress(msg.content)) {
+    var myaddress = getAddress(msg.content)
 
-    });
+    replyAddress(msg, myaddress[1])
 
   } else if (msgarray[0] === '.rep') {
     if (typeof msgarray[1] === 'undefined') {
@@ -165,7 +133,7 @@ client.on('message', msg => {
 
   } else if (msgarray[0] === '.convert' || msgarray[0] === '.calc') {
     if (typeof msgarray[1] === 'undefined') {
-      msg.reply('please add the amount!');
+      msg.inlineReply('please add the amount!');
       return;
     }
 
@@ -444,6 +412,58 @@ function dec2hex(str, bytes = null) {
   }
 
   return hex;
+}
+
+function hasAddress(string){
+  return /^.*(nano_[13][13-9a-km-uw-z]{59}).*$/.test(string)
+}
+
+function getAddress(string){
+  return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
+}
+
+function replyAddress(msg, account){
+// get account
+request({
+  url: 'https://mynano.ninja/api/accounts/' + account + '/info',
+  json: true
+}, function (error, response, body) {
+  if (error || response.statusCode !== 200) {
+    msg.reply('API error.');
+    return;
+  } else if (response.statusCode == 400) {
+    msg.reply(body.error);
+  } else if (response.statusCode == 200) {
+    console.log(body);
+    msg.channel.send({
+      embed: {
+        color: 16007990,
+        author: {
+          name: account,
+          url: 'https://mynano.ninja/account/' + account
+        },
+        fields: [
+          {
+            name: "Balance",
+            value: body.balance + ' NANO',
+            inline: true
+          },
+          {
+            name: "Pending",
+            value: body.pending + ' NANO',
+            inline: true
+          }
+        ],
+        footer: {
+          icon_url: client.user.avatarURL,
+          text: 'My Nano Ninja | mynano.ninja'
+        }
+      }
+    });
+
+  }
+
+});
 }
 
 client.login(process.env.TOKEN);
