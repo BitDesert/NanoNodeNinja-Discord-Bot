@@ -296,6 +296,7 @@ client.on('message', msg => {
     // help text
     msg.author.send("**Available commands**\n\n" +
       "`.blocks` - Current block count\n\n" +
+      "`.cps` - Current confirmations per second\n\n" +
       "`.tps` - Current transactions per second\n\n" +
       "`.account ADDRESS` - Information about an account\n\n" +
       "`.rep ADDRESS` - Information about a representative\n\n" +
