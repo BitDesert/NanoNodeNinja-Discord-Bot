@@ -361,7 +361,7 @@ async function sendTPS(msg) {
 
 async function sendCPS(msg) {
   var result = await request({
-    url: 'https://www.nanolooker.com/api/confirmations-per-second',
+    url: 'https://nanoticker.info/json/stats.json',
     json: true
   });
 
@@ -369,7 +369,7 @@ async function sendCPS(msg) {
     .setTitle('CPS')
     .setColor(0xFF0000)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-    .setDescription(result.cps)
+    .setDescription(result.CPSMedian_pr)
 
   // Send the embed to the same channel as the message
   msg.channel.send(embed);
