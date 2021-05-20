@@ -61,6 +61,10 @@ client.on('message', msg => {
 
     sendTPS(msg);
 
+  } else if (msgarray[0] === '.cps') {
+
+    //sendCPS(msg);
+
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
       msg.reply('please add the account address!');
@@ -260,6 +264,7 @@ client.on('message', msg => {
     // help text
     msg.author.send("**Available commands**\n\n" +
       "`.blocks` - Current block count\n\n" +
+      "`.cps` - Current confirmations per second\n\n" +
       "`.tps` - Current transactions per second\n\n" +
       "`.account ADDRESS` - Information about an account\n\n" +
       "`.rep ADDRESS` - Information about a representative\n\n" +
@@ -322,30 +327,39 @@ async function sendTPS(msg) {
 
 }
 
+async function sendCPS(msg) {
+  var result = await request({
+    url: 'https://nanoticker.info/json/stats.json',
+    json: true
+  });
+
+  const embed = new MessageEmbed()
+    .setTitle('CPS')
+    .setColor(0xFF0000)
+    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
+    .setDescription(formatTPS(result.CPSMedian_pr))
+
+  // Send the embed to the same channel as the message
+  msg.channel.send(embed);
+
+}
+
 async function updatePresence() {
   var presence = '';
 
-  var result = await request({
-    url: 'https://mynano.ninja/api/blockcount',
-    json: true
-  });
-
-  if (result) {
-    presence = presence + parseInt(result.count).toLocaleString('en-US') + ' Blocks'
+  try {
+    var result = await request({
+      url: 'https://nanoticker.info/json/stats.json',
+      json: true
+    });
+    presence = formatTPS(result.CPSMedian_pr) + ' CPS'
+  } catch (error) {
+    console.log('Cannot catch current CPS'); 
   }
 
-  var result = await request({
-    url: 'https://api.nanocrawler.cc/tps/1m',
-    json: true
-  });
-
-  if (result) {
-    presence = presence + ' | ' + formatTPS(result.tps) + ' TPS'
-  }
-
-  // Set the client user's presence
-  client.user.setPresence({ game: { name: presence }, status: 'idle' })
-    .catch(console.error);
+  client.user.setActivity(presence, { type: 'WATCHING' })
+  .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+  .catch(console.error);
 
 }
 setInterval(updatePresence, 60 * 1000)
