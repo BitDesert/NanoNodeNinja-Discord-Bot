@@ -369,7 +369,7 @@ async function sendCPS(msg) {
     .setTitle('CPS')
     .setColor(0xFF0000)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-    .setDescription(result.CPSMedian_pr)
+    .setDescription(formatTPS(result.CPSMedian_pr))
 
   // Send the embed to the same channel as the message
   msg.channel.send(embed);
