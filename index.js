@@ -61,7 +61,7 @@ client.on('message', msg => {
 
   } else if (msgarray[0] === '.cps') {
 
-    sendCPS(msg);
+    //sendCPS(msg);
 
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
@@ -379,27 +379,19 @@ async function sendCPS(msg) {
 async function updatePresence() {
   var presence = '';
 
-  var result = await request({
-    url: 'https://mynano.ninja/api/blockcount',
-    json: true
-  });
-
-  if (result) {
-    presence = presence + parseInt(result.count).toLocaleString('en-US') + ' Blocks'
+  try {
+    var result = await request({
+      url: 'https://nanoticker.info/json/stats.json',
+      json: true
+    });
+    presence = formatTPS(result.CPSMedian_pr) + ' CPS'
+  } catch (error) {
+    console.log('Cannot catch current CPS'); 
   }
 
-  var result = await request({
-    url: 'https://api.nanocrawler.cc/tps/1m',
-    json: true
-  });
-
-  if (result) {
-    presence = presence + ' | ' + formatTPS(result.tps) + ' TPS'
-  }
-
-  // Set the client user's presence
-  client.user.setPresence({ game: { name: presence }, status: 'idle' })
-    .catch(console.error);
+  client.user.setActivity(presence, { type: 'WATCHING' })
+  .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+  .catch(console.error);
 
 }
 setInterval(updatePresence, 60 * 1000)
