@@ -384,7 +384,7 @@ async function updatePresence() {
       url: 'https://nanoticker.info/json/stats.json',
       json: true
     });
-    presence = formatTPS(result.CPSMedian_pr) + ' CPS'
+    presence = formatTPS(result.CPSMedian_pr) + ' CPS | ' + formatTPS(result.BPSMedian_pr) + ' BPS'
   } catch (error) {
     console.log('Cannot catch current CPS'); 
   }
