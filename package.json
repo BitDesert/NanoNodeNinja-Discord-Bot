@@ -15,11 +15,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "big.js": "^6.0.3",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
+    "discord.js": "^12.5.3",
     "moment": "^2.29.1",
     "nano-prettify": "^1.0.2",
+    "nanocurrency": "^2.5.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
   },

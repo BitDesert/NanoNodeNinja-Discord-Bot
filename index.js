@@ -6,9 +6,14 @@ require("./ExtendedMessage");
 const client = new Client();
 
 const request = require("request-promise");
+const axios = require("axios");
+const nanocurrency = require("nanocurrency");
 var moment = require('moment');
 const Big = require('big.js');
-require('dotenv').config()
+
+var tools = require('./tools');
+
+const nanoBlue = 0x4A90E2;
 
 // client init
 
@@ -73,10 +78,14 @@ client.on('message', msg => {
 
     var account = msgarray[1]
 
-    replyAddress(msg, account)
+    sendAddressInfo(msg.channel, account)
 
   } else if (hasAddress(msg.content)) {
-    msg.react('🔎')
+    const emoji = '🔎';
+    msg.react(emoji);
+    const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
+    const collector = msg.createReactionCollector(filter, { time: 5 * 60 * 1000 });
+    collector.on('collect', handleReaction);
 
   } else if (msgarray[0] === '.rep') {
     if (typeof msgarray[1] === 'undefined') {
@@ -108,12 +117,12 @@ client.on('message', msg => {
             fields: [
               {
                 name: "Voting Weight",
-                value: toLocaleString(variableRound(rawtoNANO(body.votingweight))) + ' NANO',
+                value: toLocaleString(tools.variableRound(rawtoNANO(body.votingweight))) + ' NANO',
                 inline: true
               },
               {
                 name: "Uptime",
-                value: round(body.uptime, 3) + ' %',
+                value: tools.round(body.uptime, 3) + ' %',
                 inline: true
               },
               {
@@ -197,7 +206,7 @@ client.on('message', msg => {
           },
           {
             name: "raw Hex",
-            value: pad16bytehex(dec2hex(raw.toFixed().toString())).toUpperCase(),
+            value: tools.pad16bytehex(tools.dec2hex(raw.toFixed().toString())).toUpperCase(),
             inline: true
           }
         ],
@@ -309,7 +318,7 @@ async function sendTPS(msg) {
 
   const embed = new MessageEmbed()
     .setTitle('TPS')
-    .setColor(0xFF0000)
+    .setColor(nanoBlue)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
     .setDescription(
       '**1m:** ' + formatTPS(result_1m.tps) + ' / ' +
@@ -333,7 +342,7 @@ async function sendCPS(msg) {
 
   const embed = new MessageEmbed()
     .setTitle('CPS')
-    .setColor(0xFF0000)
+    .setColor(nanoBlue)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
     .setDescription(formatTPS(result.CPSMedian_pr))
 
@@ -375,57 +384,6 @@ function toLocaleString(value) {
   return Number.parseFloat(value).toLocaleString('en-US')
 }
 
-function variableRound(value) {
-  if (value > 1) {
-    return round(value, 2);
-  } else {
-    return round(value, 5);
-  }
-}
-
-function round(value, precision) {
-  if (Number.isInteger(precision)) {
-    var shift = Math.pow(10, precision);
-    return Math.round(value * shift) / shift;
-  } else {
-    return Math.round(value);
-  }
-}
-
-// Zerofill HEX ... modified https://stackoverflow.com/questions/1267283/how-can-i-pad-a-value-with-leading-zeros
-function pad16bytehex(n) {
-  var pad = '00000000000000000000000000000000'
-  return (pad + n).slice(-pad.length);
-}
-
-function dec2hex(str, bytes = null) {
-  var dec = str.toString().split(''), sum = [], hex = [], i, s
-  while (dec.length) {
-    s = 1 * dec.shift()
-    for (i = 0; s || i < sum.length; i++) {
-      s += (sum[i] || 0) * 10
-      sum[i] = s % 16
-      s = (s - sum[i]) / 16
-    }
-  }
-  while (sum.length) {
-    hex.push(sum.pop().toString(16));
-  }
-
-  hex = hex.join('');
-
-  if (hex.length % 2 != 0)
-    hex = "0" + hex;
-
-  if (bytes > hex.length / 2) {
-    var diff = bytes - hex.length / 2;
-    for (var i = 0; i < diff; i++)
-      hex = "00" + hex;
-  }
-
-  return hex;
-}
-
 function hasAddress(string){
   return /^.*(nano_[13][13-9a-km-uw-z]{59}).*$/.test(string)
 }
@@ -434,48 +392,33 @@ function getAddress(string){
   return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
 }
 
-function replyAddress(msg, account){
-// get account
-request({
-  url: 'https://mynano.ninja/api/accounts/' + account + '/info',
-  json: true
-}, function (error, response, body) {
-  if (error || response.statusCode !== 200) {
-    msg.reply('API error.');
-    return;
-  } else if (response.statusCode == 400) {
-    msg.reply(body.error);
-  } else if (response.statusCode == 200) {
-    console.log(body);
-    msg.channel.send({
-      embed: {
-        color: 16007990,
-        author: {
-          name: account,
-          url: 'https://mynano.ninja/account/' + account
-        },
-        fields: [
-          {
-            name: "Balance",
-            value: body.balance + ' NANO',
-            inline: true
-          },
-          {
-            name: "Pending",
-            value: body.pending + ' NANO',
-            inline: true
-          }
-        ],
-        footer: {
-          icon_url: client.user.avatarURL,
-          text: 'My Nano Ninja | mynano.ninja'
-        }
-      }
-    });
-
+async function sendAddressInfo(channel, accountname){
+  try {
+    var account = await axios.get('https://mynano.ninja/api/accounts/' + accountname + '/info');
+  } catch (error) {
+    return console.log(error);
   }
 
-});
+  const embed = new MessageEmbed()
+    .setTitle(accountname)
+    .setColor(nanoBlue)
+    .setDescription('[More information](https://mynano.ninja/account/' + accountname+')')
+    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
+    .addField('Balance', nanocurrency.convert(account.data.balance, { from: 'raw', to: 'NANO' }) + ' NANO', true)
+    .addField('Pending', nanocurrency.convert(account.data.pending, { from: 'raw', to: 'NANO' }) + ' NANO', true)
+
+
+  // Send the embed to the same channel as the message
+  channel.send(embed);
+}
+
+async function handleReaction(reaction, user){
+  console.log(`Collected ${reaction.emoji.name}`, reaction.message.content)
+
+  if(hasAddress(reaction.message.content)){
+    const address = getAddress(reaction.message.content)[1];
+    sendAddressInfo(user, address)
+  }
 }
 
 client.login(process.env.TOKEN);
