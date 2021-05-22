@@ -82,7 +82,7 @@ client.on('message', msg => {
 
     sendAddressInfo(msg.channel, account)
 
-  } else if (hasAddress(msg.content)) {
+  } else if (tools.hasAddress(msg.content)) {
     const emoji = '🔎';
     msg.react(emoji);
     const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
