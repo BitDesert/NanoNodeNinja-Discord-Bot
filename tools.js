@@ -49,9 +49,35 @@ function round(value, precision) {
   }
 }
 
+function formatTPS(tps) {
+  return parseFloat(tps).toFixed(2).toLocaleString('en-US');
+}
+
+function rawtoNANO(raw) {
+  return raw / 1000000000000000000000000000000;
+}
+
+function toLocaleString(value) {
+  if(isNaN(value)) return '0';
+  return Number.parseFloat(value).toLocaleString('en-US')
+}
+
+function hasAddress(string){
+  return /^.*(nano_[13][13-9a-km-uw-z]{59}).*$/.test(string)
+}
+
+function getAddress(string){
+  return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
+}
+
 module.exports = {
-  dec2hex: dec2hex,
-  pad16bytehex: pad16bytehex,
-  variableRound: variableRound,
-  round: round
+  dec2hex,
+  pad16bytehex,
+  variableRound,
+  round,
+  formatTPS,
+  rawtoNANO,
+  toLocaleString,
+  hasAddress,
+  getAddress
 }

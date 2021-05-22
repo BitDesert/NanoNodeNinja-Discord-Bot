@@ -12,6 +12,7 @@ var moment = require('moment');
 const Big = require('big.js');
 
 var tools = require('./tools');
+var presence = require('./presence');
 
 const nanoBlue = 0x4A90E2;
 
@@ -19,7 +20,8 @@ const nanoBlue = 0x4A90E2;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  updatePresence();
+  presence.updatePresence(client);
+  setInterval(() => {presence.updatePresence(client)}, 60 * 1000)
 });
 
 client.on('message', msg => {
@@ -349,47 +351,6 @@ async function sendCPS(msg) {
   // Send the embed to the same channel as the message
   msg.channel.send(embed);
 
-}
-
-async function updatePresence() {
-  var presence = '';
-
-  try {
-    var result = await request({
-      url: 'https://nanoticker.info/json/stats.json',
-      json: true
-    });
-    presence = formatTPS(result.CPSMedian_pr) + ' CPS | ' + formatTPS(result.BPSMedian_pr) + ' BPS | .help'
-  } catch (error) {
-    console.log('Cannot catch current CPS'); 
-  }
-
-  client.user.setActivity(presence, { type: 'WATCHING' })
-  .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
-  .catch(console.error);
-
-}
-setInterval(updatePresence, 60 * 1000)
-
-function formatTPS(tps) {
-  return parseFloat(tps).toFixed(2).toLocaleString('en-US');
-}
-
-function rawtoNANO(raw) {
-  return raw / 1000000000000000000000000000000;
-}
-
-function toLocaleString(value) {
-  if(isNaN(value)) return '0';
-  return Number.parseFloat(value).toLocaleString('en-US')
-}
-
-function hasAddress(string){
-  return /^.*(nano_[13][13-9a-km-uw-z]{59}).*$/.test(string)
-}
-
-function getAddress(string){
-  return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
 }
 
 async function sendAddressInfo(channel, accountname){
