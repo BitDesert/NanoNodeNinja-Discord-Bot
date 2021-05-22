@@ -14,7 +14,9 @@ const Big = require('big.js');
 var tools = require('./tools');
 var presence = require('./presence');
 
-const nanoBlue = 0x4A90E2;
+var sendAddressInfo = require('./handler/account');
+var sendRepInfo = require('./handler/representative');
+var sendBlocks = require('./handler/blocks');
 
 // client init
 
@@ -34,35 +36,7 @@ client.on('message', msg => {
   var msgarray = msg.content.split(" ");
 
   if (msg.content === '.blocks') {
-    request({
-      url: 'https://mynano.ninja/api/blockcount',
-      json: true
-    }, function (error, response, body) {
-      if (error || response.statusCode !== 200) {
-        msg.reply('API error.');
-        return;
-      } else if (response.statusCode == 404) {
-        msg.reply(body.error);
-      } else if (response.statusCode == 200) {
-        // return blockcount
-        msg.channel.send({
-          embed: {
-            color: 16007990,
-            fields: [
-              {
-                name: "Blocks",
-                value: parseInt(body.count).toLocaleString('en-US'),
-                inline: true
-              }
-            ],
-            footer: {
-              icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja | mynano.ninja'
-            }
-          }
-        });
-      }
-    });
+    sendBlocks(client, msg.channel)
 
   } else if (msgarray[0] === '.tps') {
 
@@ -78,16 +52,7 @@ client.on('message', msg => {
       return;
     }
 
-    var account = msgarray[1]
-
-    sendAddressInfo(msg.channel, account)
-
-  } else if (tools.hasAddress(msg.content)) {
-    const emoji = '🔎';
-    msg.react(emoji);
-    const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
-    const collector = msg.createReactionCollector(filter, { time: 5 * 60 * 1000 });
-    collector.on('collect', handleReaction);
+    sendAddressInfo(client, msg.channel, msgarray[1])
 
   } else if (msgarray[0] === '.rep') {
     if (typeof msgarray[1] === 'undefined') {
@@ -95,54 +60,7 @@ client.on('message', msg => {
       return;
     }
 
-    // get account
-    request({
-      url: 'https://mynano.ninja/api/accounts/' + msgarray[1],
-      json: true
-    }, function (error, response, body) {
-      if (error) {
-        return msg.reply('API error.');
-      }
-
-      if (response.statusCode == 404) {
-        msg.reply(body.error);
-      } else if (response.statusCode !== 200) {
-        msg.reply('API error.');
-      } else if (response.statusCode == 200) {
-        msg.channel.send({
-          embed: {
-            color: 16007990,
-            author: {
-              name: body.account,
-              url: 'https://mynano.ninja/account/' + body.account
-            },
-            fields: [
-              {
-                name: "Voting Weight",
-                value: toLocaleString(tools.variableRound(rawtoNANO(body.votingweight))) + ' NANO',
-                inline: true
-              },
-              {
-                name: "Uptime",
-                value: tools.round(body.uptime, 3) + ' %',
-                inline: true
-              },
-              {
-                name: "Last voted",
-                value: moment(body.lastVoted).fromNow(),
-                inline: true
-              }
-            ],
-            footer: {
-              icon_url: client.user.avatarURL,
-              text: 'My Nano Ninja | mynano.ninja'
-            }
-          }
-        });
-
-      }
-
-    });
+    sendRepInfo(client, msg.channel, msgarray[1]);
 
   } else if (msgarray[0] === '.convert' || msgarray[0] === '.calc') {
     if (typeof msgarray[1] === 'undefined') {
@@ -265,6 +183,13 @@ client.on('message', msg => {
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
 
+  } else if (tools.hasAddress(msg.content)) {
+    const emoji = '🔎';
+    msg.react(emoji);
+    const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
+    const collector = msg.createReactionCollector(filter, { time: 5 * 60 * 1000 });
+    collector.on('collect', handleReaction);
+
   } else if (msg.content === '.invite') {
     // bot invite
     msg.reply('https://discordapp.com/oauth2/authorize?client_id=' + client.user.id + '&scope=bot&permissions=0')
@@ -353,32 +278,12 @@ async function sendCPS(msg) {
 
 }
 
-async function sendAddressInfo(channel, accountname){
-  try {
-    var account = await axios.get('https://mynano.ninja/api/accounts/' + accountname + '/info');
-  } catch (error) {
-    return console.log(error);
-  }
-
-  const embed = new MessageEmbed()
-    .setTitle(accountname)
-    .setColor(nanoBlue)
-    .setDescription('[More information](https://mynano.ninja/account/' + accountname+')')
-    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-    .addField('Balance', nanocurrency.convert(account.data.balance, { from: 'raw', to: 'NANO' }) + ' NANO', true)
-    .addField('Pending', nanocurrency.convert(account.data.pending, { from: 'raw', to: 'NANO' }) + ' NANO', true)
-
-
-  // Send the embed to the same channel as the message
-  channel.send(embed);
-}
-
 async function handleReaction(reaction, user){
   console.log(`Collected ${reaction.emoji.name}`, reaction.message.content)
 
-  if(hasAddress(reaction.message.content)){
-    const address = getAddress(reaction.message.content)[1];
-    sendAddressInfo(user, address)
+  if(tools.hasAddress(reaction.message.content)){
+    const address = tools.getAddress(reaction.message.content)[1];
+    sendAddressInfo(client, user, address)
   }
 }
 
