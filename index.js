@@ -6,10 +6,6 @@ require("./ExtendedMessage");
 const client = new Client();
 
 const request = require("request-promise");
-const axios = require("axios");
-const nanocurrency = require("nanocurrency");
-var moment = require('moment');
-const Big = require('big.js');
 
 var tools = require('./tools');
 var presence = require('./presence');
@@ -17,6 +13,7 @@ var presence = require('./presence');
 var sendAddressInfo = require('./handler/account');
 var sendRepInfo = require('./handler/representative');
 var sendBlocks = require('./handler/blocks');
+var sendConvert = require('./handler/convert');
 
 // client init
 
@@ -39,11 +36,9 @@ client.on('message', msg => {
     sendBlocks(client, msg.channel)
 
   } else if (msgarray[0] === '.tps') {
-
     sendTPS(msg);
 
   } else if (msgarray[0] === '.cps') {
-
     //sendCPS(msg);
 
   } else if (msgarray[0] === '.account') {
@@ -68,74 +63,13 @@ client.on('message', msg => {
       return;
     }
 
-    // based on https://nanoo.tools/unit-converter
-
-    var inputBig = Big(msgarray[1]);
-
     if (typeof msgarray[2] === 'undefined') {
       var unit = 'NANO';
     } else {
       var unit = msgarray[2];
     }
 
-    // define multipliers/dividers. dividers will be implemented as multipliers for precision reasons. 
-    multMnano = Big('1000000000000000000000000000000'); // 10^30
-    divMnano = Big('0.000000000000000000000000000001'); // 10^-30
-    multknano = Big('1000000000000000000000000000'); // 10^27
-    divknano = Big('0.000000000000000000000000001'); // 10^-27
-    multnano = Big('1000000000000000000000000'); // 10^24
-    divnano = Big('0.000000000000000000000001'); // 10^-24
-
-    // Convert input to raw amount
-    if (unit == "NANO") {
-      var raw = Big(inputBig.times(multMnano));
-    } else if (unit == "knano") {
-      var raw = Big(inputBig.times(multknano));
-    } else if (unit == "nano") {
-      var raw = Big(inputBig.times(multnano));
-    } else if (unit == "raw") {
-      var raw = Big(inputBig);
-    } else {
-      msg.reply('unit is not known!');
-      return;
-    }
-
-    msg.channel.send({
-      embed: {
-        color: 16007990,
-        fields: [
-          {
-            name: "NANO",
-            value: Big(raw.times(divMnano)).toFixed().toString(),
-            inline: true
-          },
-          {
-            name: "knano",
-            value: Big(raw.times(divknano)).toFixed().toString(),
-            inline: true
-          },
-          {
-            name: "nano",
-            value: Big(raw.times(divnano)).toFixed().toString(),
-            inline: true
-          },
-          {
-            name: "raw",
-            value: raw.toFixed().toString(),
-            inline: true
-          },
-          {
-            name: "raw Hex",
-            value: tools.pad16bytehex(tools.dec2hex(raw.toFixed().toString())).toUpperCase(),
-            inline: true
-          }
-        ],
-        footer: {
-          icon_url: client.user.avatarURL,
-          text: 'My Nano Ninja | mynano.ninja'
-        }
-      }
-    });
+    sendConvert(client, msg.channel, msgarray[1], unit);
 
   } else if (msg.content === '.ledger') {
     // ledger fastsync download
