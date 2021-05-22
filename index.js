@@ -76,9 +76,7 @@ client.on('message', msg => {
     replyAddress(msg, account)
 
   } else if (hasAddress(msg.content)) {
-    var myaddress = getAddress(msg.content)
-
-    replyAddress(msg, myaddress[1])
+    msg.react('🔎')
 
   } else if (msgarray[0] === '.rep') {
     if (typeof msgarray[1] === 'undefined') {
