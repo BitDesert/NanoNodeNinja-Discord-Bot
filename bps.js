@@ -1,7 +1,7 @@
 const axios = require("axios");
 const trend = require("./trend");
 
-async function getBlocksPerSecondGrowth(dimension){
+async function getBlocksPerSecond(dimension){
   var stats = await axios.get('https://node-proxy.nanoticker.info/api/v1/data?chart=repstats_v21_local.tps_median&format=json&points=320&group=average&after=-3600&options=flip|jsonwrap&dimension='+dimension);
 
   var statsvalues = stats.data.result.data;
@@ -15,7 +15,11 @@ async function getBlocksPerSecondGrowth(dimension){
   });
 
   console.log(dimension, growth, lastPoints, statsvalues.length);
-  return growth;
+
+  return {
+    lastValue: stats.data.latest_values[0],
+    growth: growth
+  };
 }
 
-module.exports = getBlocksPerSecondGrowth;
+module.exports = getBlocksPerSecond;

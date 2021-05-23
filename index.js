@@ -22,7 +22,7 @@ var sendBlocksPerSecond = require('./handler/cps');
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   presence.updatePresence(client);
-  setInterval(() => {presence.updatePresence(client)}, 60 * 1000)
+  setInterval(() => {presence.updatePresence(client)}, 30 * 1000)
 });
 
 client.on('message', msg => {
