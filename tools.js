@@ -70,6 +70,20 @@ function getAddress(string){
   return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
 }
 
+function growthToEmoji(growth){
+  if(growth < 0.5){
+    return '⏬';
+  } else if(growth < 0.8){
+    return '🔽';
+  } else if(growth < 1.2){
+    return '⏺️';
+  } else if(growth < 1.6){
+    return '🔼';
+  } else {
+    return '⏫';
+  }
+}
+
 module.exports = {
   dec2hex,
   pad16bytehex,
@@ -79,5 +93,6 @@ module.exports = {
   rawtoNANO,
   toLocaleString,
   hasAddress,
-  getAddress
+  getAddress,
+  growthToEmoji
 }
