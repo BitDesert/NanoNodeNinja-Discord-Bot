@@ -9,6 +9,7 @@ async function sendBlockInfo(client, channel, block){
   try {
     var blockresponse = await axios.get('https://mynano.ninja/api/blocks/' + block);
   } catch (error) {
+    channel.send('Block '+block+' not found!');
     return console.log(error);
   }
 
