@@ -36,13 +36,7 @@ client.on('message', msg => {
   if (msg.content === '.blocks') {
     sendBlocks(client, msg.channel)
 
-  } else if (msgarray[0] === '.tps') {
-    sendTPS(msg);
-
-  } else if (msgarray[0] === '.bps') {
-    sendBlocksPerSecond(client, msg.author)
-
-  } else if (msgarray[0] === '.cps') {
+  } else if (msgarray[0] === '.tps' || msgarray[0] === '.bps' || msgarray[0] === '.cps') {
     sendBlocksPerSecond(client, msg.author)
 
   } else if (msgarray[0] === '.account') {
@@ -149,55 +143,6 @@ client.on('message', msg => {
 
   }
 });
-
-async function sendTPS(msg) {
-  var result_1m = await request({
-    url: 'https://api.nanocrawler.cc/tps/1m',
-    json: true
-  });
-
-  var result_5m = await request({
-    url: 'https://api.nanocrawler.cc/tps/5m',
-    json: true
-  });
-
-  var result_15m = await request({
-    url: 'https://api.nanocrawler.cc/tps/15m',
-    json: true
-  });
-
-  var result_30m = await request({
-    url: 'https://api.nanocrawler.cc/tps/30m',
-    json: true
-  });
-
-  var result_1hr = await request({
-    url: 'https://api.nanocrawler.cc/tps/1hr',
-    json: true
-  });
-
-  var result_24hr = await request({
-    url: 'https://api.nanocrawler.cc/tps/24hr',
-    json: true
-  });
-
-  const embed = new MessageEmbed()
-    .setTitle('TPS')
-    .setColor(nanoBlue)
-    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-    .setDescription(
-      '**1m:** ' + formatTPS(result_1m.tps) + ' / ' +
-      '**5m:** ' + formatTPS(result_5m.tps) + ' / ' +
-      '**15m:** ' + formatTPS(result_15m.tps) + ' / ' +
-      '**30m:** ' + formatTPS(result_30m.tps) + ' / ' +
-      '**1hr** ' + formatTPS(result_1hr.tps) + ' / ' +
-      '**24hr:** ' + formatTPS(result_24hr.tps)
-    )
-
-  // Send the embed to the same channel as the message
-  msg.channel.send(embed);
-
-}
 
 async function handleReaction(reaction, user){
   console.log(`Collected ${reaction.emoji.name}`, reaction.message.content)
