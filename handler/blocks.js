@@ -11,9 +11,11 @@ async function sendBlocks(client, channel){
   }
 
   const embed = new MessageEmbed()
-    .setTitle('Blocks')
+    .setTitle('Block Counts')
     .setColor(constants.nanoBlue)
-    .setDescription(parseInt(blocks.data.count).toLocaleString('en-US'))
+    .addField('Checked', parseInt(blocks.data.count).toLocaleString('en-US'), true)
+    .addField('Unchecked', parseInt(blocks.data.unchecked).toLocaleString('en-US'), true)
+    .addField('Cemented', parseInt(blocks.data.cemented).toLocaleString('en-US'), true)
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
 
   // Send the embed to the same channel as the message
