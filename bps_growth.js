@@ -7,14 +7,14 @@ async function getBlocksPerSecondGrowth(dimension){
   var statsvalues = stats.data.result.data;
   let cps = statsvalues.map(a => a[1]);
 
-  var lastPoints = 10;
+  var lastPoints = Math.round(statsvalues.length * 0.1);
 
   var growth = trend(cps, {
     lastPoints,
     avgPoints: (statsvalues.length - lastPoints)
   });
 
-  console.log(dimension, growth, statsvalues.length);
+  console.log(dimension, growth, lastPoints, statsvalues.length);
   return growth;
 }
 
