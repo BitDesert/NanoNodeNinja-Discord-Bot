@@ -19,6 +19,7 @@ async function sendAddressInfo(client, channel, accountname){
     .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
     .addField('Balance', nanocurrency.convert(account.data.balance, { from: 'raw', to: 'NANO' }) + ' NANO', true)
     .addField('Pending', nanocurrency.convert(account.data.pending, { from: 'raw', to: 'NANO' }) + ' NANO', true)
+    .addField('Confirmed Blocks', account.data.confirmation_height + ' of ' + account.data.block_count, true)
 
   // Send the embed to the same channel as the message
   channel.send(embed);
