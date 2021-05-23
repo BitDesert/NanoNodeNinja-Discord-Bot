@@ -14,6 +14,7 @@ var sendAddressInfo = require('./handler/account');
 var sendRepInfo = require('./handler/representative');
 var sendBlocks = require('./handler/blocks');
 var sendConvert = require('./handler/convert');
+var sendBlocksPerSecond = require('./handler/cps');
 
 // client init
 
@@ -38,8 +39,11 @@ client.on('message', msg => {
   } else if (msgarray[0] === '.tps') {
     sendTPS(msg);
 
+  } else if (msgarray[0] === '.bps') {
+    sendBlocksPerSecond(client, msg.author)
+
   } else if (msgarray[0] === '.cps') {
-    //sendCPS(msg);
+    sendBlocksPerSecond(client, msg.author)
 
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
@@ -189,23 +193,6 @@ async function sendTPS(msg) {
       '**1hr** ' + formatTPS(result_1hr.tps) + ' / ' +
       '**24hr:** ' + formatTPS(result_24hr.tps)
     )
-
-  // Send the embed to the same channel as the message
-  msg.channel.send(embed);
-
-}
-
-async function sendCPS(msg) {
-  var result = await request({
-    url: 'https://nanoticker.info/json/stats.json',
-    json: true
-  });
-
-  const embed = new MessageEmbed()
-    .setTitle('CPS')
-    .setColor(nanoBlue)
-    .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
-    .setDescription(formatTPS(result.CPSMedian_pr))
 
   // Send the embed to the same channel as the message
   msg.channel.send(embed);
