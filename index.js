@@ -127,6 +127,13 @@ client.on('message', msg => {
     // bot invite
     msg.reply('https://discordapp.com/oauth2/authorize?client_id=' + client.user.id + '&scope=bot&permissions=0')
 
+  } else if (msg.content === '.servers' && msg.author.id === '127749400523964416') {
+    var guilds = client.guilds.cache.map((guild) => {
+      return guild.name;
+    })
+
+    msg.reply(guilds.join(', '))
+
   } else if (msg.content === '.help') {
     // help text
     msg.author.send("**Available commands**\n\n" +
