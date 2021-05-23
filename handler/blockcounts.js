@@ -3,7 +3,7 @@ const axios = require("axios");
 
 const constants =  require('../constants')
 
-async function sendBlocks(client, channel){
+async function sendBlockCounts(client, channel){
   try {
     var blocks = await axios.get('https://mynano.ninja/api/blockcount');
   } catch (error) {
@@ -22,4 +22,4 @@ async function sendBlocks(client, channel){
   channel.send(embed);
 }
 
-module.exports = sendBlocks;
+module.exports = sendBlockCounts;

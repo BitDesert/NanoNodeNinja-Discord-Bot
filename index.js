@@ -11,8 +11,9 @@ var tools = require('./tools');
 var presence = require('./presence');
 
 var sendAddressInfo = require('./handler/account');
+var sendBlockInfo = require('./handler/block');
 var sendRepInfo = require('./handler/representative');
-var sendBlocks = require('./handler/blocks');
+var sendBlocks = require('./handler/blockcounts');
 var sendConvert = require('./handler/convert');
 var sendBlocksPerSecond = require('./handler/cps');
 
@@ -115,7 +116,7 @@ client.on('message', msg => {
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
 
-  } else if (tools.hasAddress(msg.content)) {
+  } else if (tools.hasAddress(msg.content) || tools.hasBlockHash(msg.content)) {
     const emoji = '🔎';
     msg.react(emoji);
     const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
@@ -149,7 +150,10 @@ async function handleReaction(reaction, user){
 
   if(tools.hasAddress(reaction.message.content)){
     const address = tools.getAddress(reaction.message.content)[1];
-    sendAddressInfo(client, user, address)
+    sendAddressInfo(client, user, address);
+  } else if(tools.hasBlockHash(reaction.message.content)){
+    const blockhash = tools.getBlockHash(reaction.message.content)[1];
+    sendBlockInfo(client, user, blockhash);
   }
 }
 

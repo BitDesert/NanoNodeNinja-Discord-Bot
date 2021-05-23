@@ -70,6 +70,14 @@ function getAddress(string){
   return string.match(/^.*(nano_[13][13-9a-km-uw-z]{59}).*$/)
 }
 
+function hasBlockHash(string){
+  return /^.*([0-9A-F]{64}).*$/.test(string)
+}
+
+function getBlockHash(string){
+  return string.match(/^.*([0-9A-F]{64}).*$/)
+}
+
 function growthToEmoji(growth){
   if(growth < 0.5){
     return '⏬';
@@ -94,5 +102,7 @@ module.exports = {
   toLocaleString,
   hasAddress,
   getAddress,
+  hasBlockHash,
+  getBlockHash,
   growthToEmoji
 }
