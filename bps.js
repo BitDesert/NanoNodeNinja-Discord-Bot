@@ -18,7 +18,8 @@ async function getBlocksPerSecond(dimension){
 
   return {
     lastValue: stats.data.latest_values[0],
-    growth: growth
+    growth: growth,
+    raw: cps
   };
 }
 

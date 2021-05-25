@@ -16,6 +16,7 @@ var sendRepInfo = require('./handler/representative');
 var sendBlocks = require('./handler/blockcounts');
 var sendConvert = require('./handler/convert');
 var sendBlocksPerSecond = require('./handler/cps');
+var sendBacklog = require('./handler/backlog');
 
 // client init
 
@@ -39,6 +40,9 @@ client.on('message', msg => {
 
   } else if (msgarray[0] === '.tps' || msgarray[0] === '.bps' || msgarray[0] === '.cps') {
     sendBlocksPerSecond(client, msg.author)
+
+  } else if (msgarray[0] === '.backlog') {
+    sendBacklog(client, msg.channel)
 
   } else if (msgarray[0] === '.account') {
     if (typeof msgarray[1] === 'undefined') {
