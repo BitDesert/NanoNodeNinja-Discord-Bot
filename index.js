@@ -151,7 +151,9 @@ client.on('message', msg => {
       "`.trade` - Invite to the trade channel\n\n" +
       "`.wallets` - Shows the unofficial wallet list\n\n" +
       "`.invite` - Get the invite link\n\n" +
-      "`.help` - Shows this text\n\n");
+      "`.help` - Shows this text\n\n\n" +
+      "This bot is open source: https://github.com/BitDesert/MyNanoNinja-Discord-Bot \n\n" + 
+      "Sponsor the development at https://github.com/sponsors/BitDesert");
 
   }
 });
