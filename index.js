@@ -124,7 +124,7 @@ client.on('message', msg => {
     const emoji = '🔎';
     msg.react(emoji);
     const filter = (reaction, user) => reaction.emoji.name === emoji && user.id !== client.user.id;
-    const collector = msg.createReactionCollector(filter, { time: 5 * 60 * 1000 });
+    const collector = msg.createReactionCollector(filter, { time: 60 * 60 * 1000 });
     collector.on('collect', handleReaction);
 
   } else if (msg.content === '.invite') {
