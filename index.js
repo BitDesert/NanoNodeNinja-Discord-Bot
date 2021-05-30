@@ -84,9 +84,8 @@ client.on('message', msg => {
   } else if (msg.content === '.trade' || msg.content === '.trading') {
     const embed = new MessageEmbed()
       .setColor(0xFF0000)
-      .setDescription('For trade talk please visit one of the servers below:')
+      .setDescription('For trade talk please visit the following server:')
       .addField('NanoTrade', '[Join server](https://bit.ly/nanotrade-discord)', true)
-      .addField('The Nano Center', '[Join server](https://bit.ly/nanocenter-discord)', true)
       .setFooter('My Nano Ninja | mynano.ninja', client.user.avatarURL)
 
     // Send the embed to the same channel as the message
