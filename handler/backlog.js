@@ -18,7 +18,13 @@ async function sendBlockCounts(client, channel){
   const cps_avg = (sum / cps.raw.length) || 0;
 
   var backlog = parseInt(blocks.data.count) - parseInt(blocks.data.cemented);
-  var clearedin = moment().seconds(backlog / cps_avg).fromNow();
+  var clearedin_seconds = backlog / cps_avg;
+  var clearedin = moment().seconds(clearedin_seconds).fromNow();
+  
+  if(clearedin_seconds < 60){
+    channel.send('No backlog 🙂');
+    return;
+  }
 
   const embed = new MessageEmbed()
     .setTitle('Backlog Estimation')
