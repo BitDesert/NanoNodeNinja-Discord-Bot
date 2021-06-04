@@ -5,8 +5,6 @@ require("./ExtendedMessage");
 // Create an instance of a Discord client
 const client = new Client();
 
-const request = require("request-promise");
-
 var tools = require('./tools');
 var presence = require('./presence');
 
