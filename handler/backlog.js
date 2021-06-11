@@ -22,7 +22,7 @@ async function sendBlockCounts(client, channel){
   var clearedin_seconds = backlog / cps_avg;
   var clearedin = moment().seconds(clearedin_seconds).fromNow();
   
-  if(percent_cemented < 0.999){
+  if(percent_cemented > 0.999){
     channel.send('No backlog');
     return;
   }
